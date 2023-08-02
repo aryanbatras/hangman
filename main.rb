@@ -263,14 +263,34 @@ class GuessApps
         print "Do you wanna save your progress? [y/n] "
         save = gets.chomp
 
+    
         if save == 'y'
-            print "username "
-            username = gets.chomp
-
+         
+            def username
+                print "username "
+                @username = gets.chomp
+                file = File.readlines('gamesave.csv', chomp: true)
+                @saved = false
+                file.each do
+                    |line|
+                temp = line.split(',')
+                    if temp[1] == @username
+                        @saved = true
+                        print "username already exists \n"
+                    end
+                end
+            end
+            username
+            while(@saved == true) do
+                username
+            end
+            
+            if @saved == false
                 f = File.open('gamesave.csv', "a")
-                f.write("\n#{@score},#{username}")
+                f.write("\n#{@score},#{@username}")
                 f.close
-                print "score saved as #{username} \n"
+                print "score saved as #{@username} \n"
+            end
 
 
         elsif save == 'n'
